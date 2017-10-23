@@ -1,0 +1,519 @@
+<!--
+;;;***************************************************************************
+;;;* Copyright 2017 by Cancer Commons                                        *
+;;;*                                                                         *
+;;;* Permission is hereby granted, free of charge, to any person obtaining   *
+;;;* a copy of this software and associated documentation files (the         *
+;;;* "Software"), to deal in the Software without restriction, including     *
+;;;* without limitation the rights to use, copy, modify, merge, publish,     *
+;;;* distribute, sublicense, and/or sell copies of the Software, and to      *
+;;;* permit persons to whom the Software is furnished to do so, subject to   *
+;;;* the following conditions:                                               *
+;;;*                                                                         *
+;;;* The above copyright notice and this permission notice shall be          *
+;;;* included in all copies or substantial portions of the Software.         *
+;;;*                                                                         *
+;;;* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,         *
+;;;* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF      *
+;;;* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND                   *
+;;;* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE  *
+;;;* LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION  *
+;;;* OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION   *
+;;;* WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.         *
+;;;***************************************************************************
+-->
+<head>
+<link href="http://fonts.googleapis.com/css?family=Corben:bold" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=Nobile" rel="stylesheet" type="text/css">
+<title>Tour the Cancer Commons Knowledge Platform</title>
+<style>
+h1, h2, h3, h4, h5, h6 {
+    font-family: Georgia, Times, serif;
+}
+p, div {
+    font-family: Georgia, Times, serif;
+}
+p {
+    line-height: 175%;
+}
+p {
+    max-width: 10in;
+}
+p {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-right: 15px;
+    margin-left: 18px;
+}
+body {
+   background-color: #feffff
+}
+h1, h2, h3 { 
+    text-shadow: 1px 1px 1px #ccc;
+}
+</style>
+</head>
+<h3>A Tour of the Cancer Commons Knowledge Platform</h3>
+
+<p>
+
+The audiences for -- i.e., users of -- these tools are different sorts
+of people. TrEx is intended to be used by physicians, whereas Quark is
+intended to be used by someone that we call a "Clinical Analyst", who
+may or may not be a physician. There is also a third UI that sits
+between these, and requires a little of each skill. You'll be
+pretending to be different sorts of users -- to wear different hats --
+as we progress through the tour. I'll tell you when to change hats!
+
+<p>
+
+First a few words of warning to give you the right perspective:
+
+<p>
+
+First: The interfaces that you will see on this tour are pretty
+rough, and look a little better on a tablet than on a laptop or
+desktop browser. Don't focus on how things look; Focus instead on
+the <em>functionality</em>. Also, although the databases and examples
+used in this tour are real (they generally come from peer-reviewed,
+published papers), they are often out-of-date, so you shouldn't take
+anything that you see here as valid medical advice.
+
+<p>
+
+Second: This tour covers several applications which together comprise the
+<em>Cancer Commons Knowledge Platform</em>. These applications are
+technically separate, but there are pathways along which they interact
+to form specific workflows. Although this tour follows a particular
+such workflow. There are many alternative workflows that you can
+explore at your leisure.
+
+<p>
+
+Okay, so with those caveats in mind, let's begin:
+
+<p>
+
+<h3>TrEx -- The Treatment Explorer</h3>
+
+<p>
+
+The principal function of TrEx, the Treatment Explorer, is to rank
+possible therapies based upon test results and peer-reviewed evidence.
+TrEx is a direct implementation of the algorithm described in this
+paper:
+
+<p>
+
+<a target=_blank
+href=http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0011965>Mocellin,
+S., Shrager, J. et al. (2010) Targeted Therapy Database (TTD): a
+model to match patient's molecular profile with current knowledge on
+cancer biology. PLoS ONE, 5(8):
+e11965. doi:10.1371/journal.pone.0011965.</a>
+
+<p>
+
+and the TrEx prototype here uses the database published in that paper,
+with some minor simplifications. Since that paper was published in
+2010, this database is <em>extremely</em> out of date. Nevertheless,
+you'll get the idea.
+
+<p>
+
+Let's begin by putting on our oncologist (physician) hat, and opening
+the TrEx prototype application, here:
+
+<p>
+
+<a target=_blank
+href=http://platformtest.cancercommons.org:4240/trexui>TrEx -- The
+Treatment Explorer</a>
+
+<p>
+
+You'll see some instructions, and then a table of tests, with
+"Positive", "Negative", and "Untested" buttons to the right of
+each. Let's focus on the first test in the list: "BRAF mut V600E". To
+begin with, click "Positive" to the immediate right of that test, and
+then click the button just above the table, labeled "Rank Drugs". 
+
+<p>
+
+You should get a new table above the test table, containing two
+treatment options: PLX4032 (now called Vemurafenib), and the
+combination treatment melphalan + actinomycin-d. Now Find the BRAF
+V600E test again (which should be marked "positive", as you had left
+it), and change the setting to "negative". Again rank the treatments
+and notice that the order of the two treatments is reversed, which
+makes sense.
+
+<p>
+
+Play around with this a bit by setting some of the test results in
+random ways and notice how the treatment rankings change. The ranking
+algorithm is described in detail in the Mocellin et al, 2010 paper,
+linked above.
+
+<p>
+
+Now notice that all of the tests and treatments are clickable
+links. Return to the PLX4032 treatment (in the top, treatment table),
+and click that link. You should see three rows of evidence appear in a
+new browser tab. These are the three sources of evidence that
+participate in the ranking of this treatment.
+
+<p>
+
+Return to the main TrEx page and find the BRAF V600E mutation test
+line. Click on the "BRAF mut V600E" link. This should again bring up
+an evidence table (in a new tab), this time with many rows. These are
+the rows of evidence related to this clinical observation (that is,
+the observation of a BRAF V600E mutation). Notice that many possible
+drugs besides PLX4032 appear in this table? Why are only two of them
+ranked when this aberration is observed? The reason is that only the
+PLX4032 and melphalan + actinomycin-d entries have (a) clinical
+evidence (i.e., most of the evidence is in vitro, which is not counted
+as strong enough to be included in this implementation of TrEx), or
+(b) the relationship was experimentally null (i.e., it reads: "no
+relationship with" in the "relation to" column). To see this, look for
+"Sorafenib" in the "Drug" column. Notice that every row that relates
+to Sorafenib is either non-clinical-level data (in the "model"
+column), or, where there <em>is</em> clinical evidence, it says "no
+relationship with" in the "relation to" column.
+
+<p>
+
+Notice that the "source" and "notes" column entries in this evidence
+table are also clickable. Try to click any of them and you'll see that
+they link through (in most cases) to the PubMed entry for the paper
+from which the evidence was obtained. This enables you to examine the
+source of the evidence if you like.
+
+<p>
+
+<h3>Quark -- The Case and Insight Capture Tool</h3>
+
+<p>
+
+We call each of the rows of evidence that we saw again, in TrEx, a
+<em>"Treatment Rationale"</em> (TR). Mocellin et al. manually created
+a table of TRs for melanoma, which they called the "Targeted Therapy
+Database". But they left open the problem of how to ensure that the
+database of TRs was continually updated. This is the role of the
+second application on this tour: Quark. 
+
+<p>
+
+In this paper:<p>
+
+<a target=_blank
+href=http://shrager.org/vita/pubs/2013PervasiveHealth15.pdf>J
+Stevovic, et al. (2013) Adding Individual Patient Case Data to The
+Melanoma Targeted Therapy Advisor. Presented at the 7th International
+Conference on Pervasive Computing Technologies for Healthcare. May,
+2013, Venice, Italy.</a><br>
+
+<p>
+
+The authors describe an extension to TrEx (previously referred to as
+the "Targeted Therapy Advisor") that would collect individual,
+case-based information from patients and/or their physicians, and
+which augmented the TrEx database with this data. Quark is a prototype
+implementation of this envisioned extension. We conceive Quark as the
+biomedical analog of a <a target=_blank
+href=https://en.wikipedia.org/wiki/Stenotype>court-reporter's
+steno-type machine</a>. A specially-trained professional, that we call
+a "Clinical Analyst", would use Quark to capture the important parts
+of the discussion regarding treatment choices, in a setting such as a
+tumor board. The most important parts of this discussion are, of
+course, the Treatment Rationales (TRs). TRs captured in this manner
+are expressed by the Clinical Analyst in Controlled Biomedical English
+(CBE), a version of a <a target=_blank
+href=https://en.wikipedia.org/wiki/Controlled_natural_language>Controlled
+Natural Language (CNL)</a>. The TRs, thus captured in CBE/CNL are then
+vetted (a sort of lightweight peer reviewe). Those TRs that pass
+vetting are immediately added to the TrEx database, and will have
+immediate impact on the drug ranking results as computed by TrEx.
+
+<p>
+
+Before going to Quark and demonstrating this process, return for a
+moment the main TrEx window, scroll all the way to the bottom, and
+click the button labeled "Reset DB". This will remove left-over TRs
+from your, or others', previous experiments. (Yes, this will mess up
+anyone else who happens to be using these prototype application at the
+same time as you, but we aren't too worried about this. In real usage,
+this button would not exist, and you would also be logging into the
+system as a registered user, with permission controls, and so on. For
+the moment, we don't expect enough users to be trying this at the same
+time for them to run into one another. And if they do ... oh
+well.... :-)
+
+<p>
+
+Now, finally, before leaving TrEx (don't worry; we'll be back soon!),
+scroll up to the place where "EGFR" tests would appear if there were
+any (the table is alphabetical), and notice that there are no EGFR
+tests. (The TTD used here was created for melanoma, and in 2010 there
+was no clinical evidence relating EGFR to melanoma.)
+
+<p>
+
+Okay, now scroll to the top of the test table, and click the link
+labeled: "[Add insights via Quark]" (in the navigation bar at either
+the top or bottom of the page), and while it's changing pages, quickly
+switch into your Clinical Analyst hat!
+
+<p>
+
+This is the Quark Analyst's Dashboard, prefilled with some example
+notes from a (made up, of course!) tumor board meeting. I suggest
+entering something recognizable into at least one of the fields at the
+top of the page. This will enable you to identify that the transcript
+is yours if you were to see it again. (If you use the email field,
+don't put your real email address in because, as mentioned before,
+other users who might be testing the prototype are sharing the same
+database!)
+
+<p>
+
+Now let's examine the (made up, of course!) tumor board
+transcript. First, notice the header labeled "[Cheatsheet]". If you
+hover over this link (at either the top or bottom of the transcript) a
+large "tool tip" will appear, reminding you -- now playing the role of
+Clinical Analyst for this tumor board -- about the way that Quark
+expects to see certain special entries. The only rule that we care
+about for the moment is where "insights" are prefixed by asterisks
+(*). (A TR is a kind of insight. There are other kinds of insights,
+but we'll use these terms interchangably here.)  Note that there are
+several lines in the transcript prefixed with stars. These are TRs
+represented in the fairly general, yet controlled, language that we
+called, above CBE or CNL: "Controlled Biomedical English" or, more
+generally, "Controlled Natural Language". (Hereafter we'll just called
+it CBE). Notice that there are various ways to state treatment
+rationales in CBE.
+
+<p>
+
+Let's prereview what's going to happen next, before actually trying
+it.
+
+<p>
+
+We're going to push some of the TRs in this (made up, of course!)
+tumor board transcript into TrEx, and see that they will have an
+impact on the way that TrEx ranks treatments. The TRs that we're
+pushing through in this way are written in CBE. When we tell Quark
+that we're done with this transcript, the Quark system will translate
+TRs (indicated by stars in the first column) into the internal
+representation used by TrEx. It then submits these to the lightweight
+peer review process called "vetting". In order for the TRs to actually
+get added to the TrEx database, two reviewers have to agree with
+them. Once TRs are vetted and added to the TrEx database, they
+participate in the TrEx drug ranking process.
+
+<p>
+
+Let's see this in action!
+
+<p>
+
+Notice the line in the transcript that says:
+
+<p>
+
+<blockquote>
+<p><i>*In a randomized controlled trial with 200 patients with stage 2
+metastatic melanoma (Shrager & Tenenbaum, 2014), EGFR expression leads
+to resistance to cisplatin. </i></p>
+</blockquote>
+
+<p>
+
+Don't change anything in the transcript. Just scroll to the bottom and
+click the red button labeled "Save and Close". When you click this you
+will be prompted to make sure that you want to terminate the
+transcript session. Click "Yes" (or "Ok").
+
+<p>
+
+<h3>The Vetting Tool</h3>
+
+<p>
+
+When you do the above, you will end be put into the Evidence Vetting
+tool. As mentioned above, you now need to be wearing both your 
+Clinical Analyst and your Oncologist (physician) hats.
+
+<p>
+
+There are lots of buttons and things to click on in the vetting
+tool. Find the entry containing the TR above:
+
+<p>
+
+<ul>
+<p><i>In a randomized controlled trial with 200 patients with stage 2
+metastatic melanoma (Shrager & Tenenbaum, 2014), EGFR expression leads
+to resistance to cisplatin. </i></p>
+</ul>
+
+<p>
+
+Our job now, as a peer reviewer, is to assess this assertion along the
+dimensions indicated by the four 3-way scales below the assertion:
+Agreement, Generality, Evidence, and Importance. None of these do
+anything that matters on this tour except the leftmost scale:
+Agreement.
+
+<p>
+
+Suppose that we actually don't know whether we agree with this
+assertion or not because we don't know enough about it, or the context
+in which it was collected. There are links in the vetting tool that
+can help us understand the assertion better.
+
+<p>
+
+Start by clicking on the assertion itself. This will bring up a tab
+containing a read-only display of the quark transcript that we had
+just submitted. (If you filled in some of the fields, such as the
+email address, you should be able to tell that this is the one you
+actually saved.) This can be useful in understanding the context in
+which this assertion was made.
+
+<p>
+
+Now go back to the vetting page, and notice that there is a button
+labeled "Search on Google Scholar". When you click it the whole text
+of the TR is entered into google scholar and searched.
+
+<p>
+
+These tools should help you figure out whether you believe the
+assertion or not. Let's say that we decide that we do believe the
+assertion. We'll select "Agree", and then scroll to the bottom of the
+page and click "Submit". This will take us back to TrEx!
+
+<p>
+
+Unfortunately, it's a bit premature to celebrate, because you actually
+need TWO reviewers to agree with the assertion in order to get it
+accepted and added to the TrEx database. We're just going to fake it
+by clicking the link on the TrEx paged labeled "[Vet knowledge]" (in
+the navigation bar). 
+
+<p>
+
+This will bring you back to the vetting page; click "agree" again on
+our favorite TR, and then "Submit" again. This time we'll be in TrEx
+with that TR (hopefully) added to the database!  (If you were to click
+on "[Vet knowledge]" again, you'd find that the TR we're interested in
+no longer appears in the vetting interface; It's already been
+accepted, and requires no more vetting!)
+
+<p>
+
+<h3>Closing the Loop: Back to TrEx</h3>
+
+<p>
+
+Okay, so now we should be in a new world where TrEx knows about EGFR
+expression and its relationship to cisplatin. Let's check that out by
+finding the row in the test table that should now be there, but recall
+that it wasn't before, called "EGFR expression". If you click on the
+test, it will bring up the usual evidence table. However, now you'll
+see evidences rows that came from the vetted TRs that were translated
+from the BCE in the (made up, obviously!) tumor board transcript back
+in Quark! Recall that when the evidence came from papers, you could
+click through to the publication entry in PubMed. With evidence that
+came through Quark, these functions work similarly to the Vetting
+tool: You can click through to either the Quark transcript context, or
+to a Google Scholar Search. Try it!
+
+<p>
+
+Finally, let's get back to TrEx and try out our new knowledge! Let's
+click "Positive" next to our new "EGFR expression" test, and then Rank
+Drugs. If all went well, you should get Cisplatin as a recommended
+treatment! <em>Voila!</em>
+
+<p>
+
+<h3><em>Insights in Oncology</em> -- A NanoJournal </h3>
+
+<p>
+
+One more cool little thing to visit before the tour ends: All the
+insights in the TrEx database, including ones that you just added (and
+those that will eventually be added by someone who actually knows what
+they're talking about! ;-) are published in an archival "nanojournal"
+that we call "Insights in Oncology". (This is a working title; I'm
+pretty sure that's already taken!)
+
+<p>
+
+From the TrEx mail window, find the link called "[Visit the
+'<em>Insights in Oncology</em>' nanojournal]" (in the navigation
+bar). This will take you to the nanojournal, which is really just a
+long list of all the treatment rationales in the system. There isn't
+much you can do here at the moment, other than scan forward and
+backward in this list, and click through to the papers on PubMed or
+the case contexts, just as we did before when we were looking at TrEx
+records from the TrEx UI. Eventually we'll have lots more
+functionality in the journal, such as search and commenting.
+
+<p>
+
+
+(There's one more little feature, that will only be interesting to
+geeks: Notice that each record (row) has a leftmost ID column. If you
+click on the ID in a row you'll be treated to the very hard to read
+internal representation of that record. You may wonder why you would
+be interested in this. Well, <em>you</em> might not be interested (or
+even wonder why you would be interested...), but this sort of "API"
+(google it!) is extremely useful to programmers who want to write
+applications that uses the TrEx database!)
+
+<p>
+
+<h3>The End</h3>
+
+<p>
+
+And that's the end of our tour! Thanks for your attention. (Tips, as
+well as questions or comments, can be sent to "jeff@cancercommons.org"
+:-)
+
+<p>
+
+<h3>References</h3>
+
+<p>
+
+[Mocellin, et al. 2010] <a target=_blank
+href=http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0011965>Mocellin
+S, Shrager J, Scolyer R, Pasquali S, Verdi D, Marincola FM, et
+al. (2010) Targeted Therapy Database (TTD): A Model to Match Patient's
+Molecular Profile with Current Knowledge on Cancer Biology. PLoS ONE
+5(8): e11965. https://doi.org/10.1371/journal.pone.0011965</a>
+
+<p>
+
+[Stevovic, et al. 2013] <a target=_blank
+href=http://jeffshrager.org/vita/pubs/2013PervasiveHealth15.pdf>Stevovic,
+et al. (2013) Adding Individual Patient Case Data to The Melanoma
+Targeted Therapy Advisor. Presented at the 7th International
+Conference on Pervasive Computing Technologies for Healthcare. May,
+2013, Venice, Italy.</a>
+
+<p>
+
+[Shrager & Tenenbaum, 2014] <a target=_blank
+href=http://jeffshrager.org/vita/pubs/2013NatureReviewsCO.pdf>Shrager,
+J, Tenenbaum, JM (2014) Rapid Learning Precision Oncology. Nature
+Reviews Clinical Oncology 11, 109-118.</a>
+
+<p>
+

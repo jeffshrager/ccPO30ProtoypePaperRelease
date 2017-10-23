@@ -1,0 +1,338 @@
+<!--
+;;;***************************************************************************
+;;;* Copyright 2017 by Cancer Commons                                        *
+;;;*                                                                         *
+;;;* Permission is hereby granted, free of charge, to any person obtaining   *
+;;;* a copy of this software and associated documentation files (the         *
+;;;* "Software"), to deal in the Software without restriction, including     *
+;;;* without limitation the rights to use, copy, modify, merge, publish,     *
+;;;* distribute, sublicense, and/or sell copies of the Software, and to      *
+;;;* permit persons to whom the Software is furnished to do so, subject to   *
+;;;* the following conditions:                                               *
+;;;*                                                                         *
+;;;* The above copyright notice and this permission notice shall be          *
+;;;* included in all copies or substantial portions of the Software.         *
+;;;*                                                                         *
+;;;* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,         *
+;;;* EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF      *
+;;;* MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND                   *
+;;;* NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE  *
+;;;* LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION  *
+;;;* OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION   *
+;;;* WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.         *
+;;;***************************************************************************
+-->
+<head><title>Cancer Commons Knowledge Pipeline API documentation</title></head>
+<h1>Cancer Commons Knowledge Pipeline API documentation</h1>
+<br>
+<h2>Controlled Natural Lanuage Parser</h2>
+
+The Controlled Natural Lanuage (CNL) parser turns treatment rationales
+(TRs) composed in JSON semtantic structures. It accepts a wide range
+of "standardized" forms, <a target=_blank href=testnlp.html>as
+exemplified here</a> and returns JSON, as below.
+
+<pre>
+<a target=_blank href=http://platformtest.cancercommons.org:4242/cnlparser?s=In+a+randomized+controlled+trial+involving+100+patients+with+stage+2+metastatic+lung+cancer+%28shrager%2C+1998%29%2C+EGFR+expression+confers+sensitivity+to+dexamethasone.>http://platformtest.cancercommons.org:4242/cnlparser?s=In+a+randomized+controlled+trial+involving+100+patients+with+stage+2+metastatic+lung+cancer+%28shrager%2C+1998%29%2C+EGFR+expression+confers+sensitivity+to+dexamethasone.</a>
+
+-> 
+
+
+      {"cancer":["stage",2,"metastatic","CANCERTYPE.LUNG","cancer"],
+      "relation":"sensitivity_to",
+      "adverse event":null,
+      "reference":"shrager, 1998",
+      "molecule(s)":[{"name":"M.EGFR","state":"MUTYPEWORD.EXPRESSION"}],
+      "model":"rct",
+      "cases":100,
+      "drug(s)":["DEXAMETHASONE"]
+      }
+      
+</pre>
+
+<a target=_blank href=ocip1.txt>Documentation regarding CNL can be found here.</a>
+<p>
+If the parse fails, an array is returned with proposed spelling corrections, for example:
+<pre>
+
+<a target=_blank href=http://platformtest.cancercommons.org:4242/cnlparser?s=In+a+ranomized+controled+trial+invoving+100+patents+with+stage+2+metstatic+lugn+cacner+%28shrager%2C+1998%29%2C+EGFR+experssion+confers+sensiitvity+to+dexmaethsaon.>http://platformtest.cancercommons.org:4242/cnlparser?s=In+a+ranomized+controled+trial+invoving+100+patents+with+stage+2+metstatic+lugn+cacner+%28shrager%2C+1998%29%2C+EGFR+experssion+confers+sensiitvity+to+dexmaethsaon.</a>
+
+-> 
+
+[
+  "_PARSEFAILED_PROPOSED_SPELLING_CORRECTIONS_",
+  {
+    "ranomized": "randomized",
+    "controled": "controlled",
+    "invoving": "involving",
+    "patents": "patients",
+    "metstatic": "metastatic",
+    "lugn": "slug",
+    "cacner": "dacarbazine-+-quercetin",
+    "experssion": "expression",
+    "sensiitvity": "sensitivity",
+    "dexmaethsaon": "dexamethasone"
+  }
+]
+
+</pre>
+<hr>
+<h2>NCI Thesaurus Ontology Lookup Services</h2>
+
+We use the <a target=_blank
+href=https://ncit.nci.nih.gov/ncitbrowser/>NCI Thesaurus</a> as our
+standardized ontology. The ncit api looks up either names or NCIT IDs,
+returning a JSON record extracted from the TXT version of the
+Thesaurus. For example:
+
+<pre>
+
+
+<a target=_blank href=http://platformtest.cancercommons.org:4241/ncit?name=sorafenib>http://platformtest.cancercommons.org:4241/ncit?name=sorafenib</a>
+
+-> 
+
+[
+  {
+    "cid": "C2194",
+    "type": "ORGANIC_CHEMICAL",
+    "isas": [
+      "c1404"
+    ],
+    "names": [
+      "Sorafenib Tosylate",
+      "4-(4-(3-(4-Chloro-3-trifluoromethylphenyl)ureido)phenoxy)pyridine-2-carboxyllic Acid Methyamide-4-methylbenzenesulfonate Tosylate",
+      "BAY 43-9006 Tosylate",
+      "BAY 54-9085",
+      "Nexavar",
+      "SORAFENIB TOSYLATE",
+      "sorafenib",
+      "sorafenib tosylate"
+    ]
+  },
+  {
+    "cid": "C61948",
+    "type": "PHARMACOLOGIC_SUBSTANCE",
+    "isas": [
+      "c1404"
+    ],
+    "names": [
+      "Sorafenib",
+      "BAY 43-9006",
+      "SORAFENIB",
+      "sorafenib"
+    ]
+  }
+]
+
+<a target=_blank href=http://platformtest.cancercommons.org:4241/ncit?name=C61948>http://platformtest.cancercommons.org:4241/ncit?name=C61948</a>
+
+->
+
+[
+  {
+    "cid": "C61948",
+    "type": "PHARMACOLOGIC_SUBSTANCE",
+    "isas": [
+      "c1404"
+    ],
+    "names": [
+      "Sorafenib",
+      "BAY 43-9006",
+      "SORAFENIB",
+      "sorafenib"
+    ]
+  }
+]
+
+</pre>
+<hr>
+
+<h2>TrEx -- The Treatment Explorer</h2>
+
+TrEx, The "Treatment Explorer", accepts observations and statistically
+ranks plausaible treatments in accord with these observations. There
+is an interact mode that is used to test TrEx, and which can be used
+for demos, although it is not very pretty. This mode is reached as follows:
+
+<pre>
+
+<a target=_blank href=http://platformtest.cancercommons.org:4240/trexui>http://platformtest.cancercommons.org:4240/trexui</a>
+
+->
+
+Runs TrEx in interactive test/demo mode.
+
+</pre>
+
+Before using the TrEx Ranking API you must find the test and drug keys, which
+are numbers associated with each test and drug. Use this API for that:
+
+<pre>
+
+<a target=_blank href=http://platformtest.cancercommons.org:4240/trexkeys>http://platformtest.cancercommons.org:4240/trexkeys</a>
+
+-> 
+
+{
+  "tests": {
+    "1": "MITF amplified (gene)",
+    "2": "KIT mut V560A (exon 11)",
+    "3": "BRAF, CRAF, VEGFR, PDGFR expressed",
+    "4": "MGMT expressed",
+    "5": "MLH1 expressed",
+    "6": "MLH2 expressed",
+    "7": "MSH2 polymorphism rs2303428",
+    "8": "KIT mut L576P (exon 11)",
+    "9": "CRAF expressed",
+    "10": "ERK phosphorylated (activated)",
+    "11": "BRAF mut D595G",
+    "12": "BRAF mut G469E",
+    "13": "BRAF mut V600E",
+    "14": "IL-8 expressed",
+    "15": "VEGF expressed"
+    ...
+  },
+  "drugs": {
+    "1": "BI-69A11",
+    "2": "SOCS1 gene therapy",
+    "3": "4-Methylumbelliferone",
+    "4": "ADAM10",
+    "5": "GLI1 siRNA",
+    "6": "Siomycin A",
+    "7": "Epoxomicin",
+    "8": "Menadione",
+    "9": "IKK inhibitor",
+    ...
+  }
+}
+</pre>
+
+Next, call the trexrank API using the test keys, as above, and assigning +1, 0, or -1 to each test. <em>It is extremely important to understand what these numbers mean. Refer to the interactive mode documention for an explanation.</em>
+
+<pre>
+
+<a target=_blank href=http://platformtest.cancercommons.org:4240/trexrank?observations=[[1,1],[2,-1],[3,1],[4,-1],[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],[12,0],[13,0],[14,0],[15,0]]>http://platformtest.cancercommons.org:4240/trexrank?observations=[[1,1],[2,-1],[3,1],[4,-1],[5,0],[6,0],[7,0],[8,0],[9,0],[10,0],[11,0],[12,0],[13,0],[14,0],[15,0]]</a>
+
+-> 
+
+[
+  {
+    "drug": "Dacarbazine based chemotherapy",
+    "overallscore": 1,
+    "standard-error": 0.0018159464,
+    "variance": 3.2976616e-6,
+    "ci-upper": 1.0035592,
+    "ci-lower": 0.99644077,
+    "p": 0,
+    "z": 275.33853
+  },
+  {
+    "drug": "6-thioguanine",
+    "overallscore": 1,
+    "standard-error": 0.048031278,
+    "variance": 0.0023070038,
+    "ci-upper": 1.0941412,
+    "ci-lower": 0.9058587,
+    "p": 0,
+    "z": 10.4098835
+  },
+  {
+    "drug": "Imatinib",
+    "overallscore": 0,
+    "standard-error": 0.0727834,
+    "variance": 0.0052974243,
+    "ci-upper": 0.14265548,
+    "ci-lower": -0.14265548,
+    "p": 6.4337424277028e-12,
+    "z": -6.869698
+  },
+  {
+    "drug": "Bevacizumab",
+    "overallscore": 0,
+    "standard-error": 0.05446327,
+    "variance": 0.002966248,
+    "ci-upper": 0.106748015,
+    "ci-lower": -0.106748015,
+    "p": 0,
+    "z": -9.180499
+  },
+</pre>
+
+It is often useful to be able to see the evidence underlying TrEx's
+ranking algorithm. You can use this API for this purpose:
+
+<pre>
+
+
+<a target=_blank href=http://platformtest.cancercommons.org:4240/trexev?key=braf%20v600e>http://platformtest.cancercommons.org:4240/trexev?key=braf%20v600e</a>
+
+->
+
+[
+  [
+    {
+      "_id": "TTD-1",
+      "cancer": "Melanoma",
+      "Alias (modifier)": "",
+      "relation": "efficacy",
+      "reference": "Da Rocha Dias S, Cancer Res 2005, 65:10686-91",
+      "note": "17-AAG is a HSP90 inhibitor",
+      "molecule": {
+        "state": "mut V600E",
+        "name": "BRAF",
+        "class": "DNA"
+      },
+      "hypothesis": {
+        "condition": "BRAF mut V600E",
+        "relation": "efficacy",
+        "cancer": "Melanoma",
+        "drug": "17-AAG"
+      },
+      "Modifier": "",
+      "model": 3,
+      "condition": "BRAF mut V600E",
+      "collaborations": [
+        "TTD"
+      ],
+      "h": 1,
+      "drug": "17-AAG",
+      "insightLabel": "TTD-1",
+      "relationshipTo": "sensitivity to",
+      "ref_url": "https:\/\/www.ncbi.nlm.nih.gov\/pubmed\/16322212"
+    },
+    {
+      "_id": "TTD-1062",
+      "cancer": "Melanoma",
+      "Alias (modifier)": "",
+      "relation": "efficacy",
+      "reference": "Wajapeyee N, Mol Cancer Ther 2009, 8:3009-14",
+      "note": "In human melanomas containing an activating BRAF mutation (BRAF-positive melanomas), IGFBP7 is epigenetically silenced, which seems to be a critical step in melanoma genesis. Restoration of IGFBP7 function by the administration of recombinant IGFBP7 induces apoptosis in BRAF-positive human melanoma cell lines suppresses the growth of BRAF-positive primary tumors in xenografted mice",
+      "molecule": {
+        "state": "mut V600E",
+        "name": "BRAF",
+        "class": "DNA"
+      },
+      "hypothesis": {
+        "condition": "BRAF mut V600E",
+        "relation": "efficacy",
+        "cancer": "Melanoma",
+        "drug": "IGFBP7"
+      },
+      "Modifier": "",
+      "model": 4,
+      "condition": "BRAF mut V600E",
+      "collaborations": [
+        "TTD"
+      ],
+      "h": 1,
+      "drug": "IGFBP7",
+      "insightLabel": "TTD-1062",
+      "relationshipTo": "sensitivity to",
+      "ref_url": "https:\/\/www.ncbi.nlm.nih.gov\/pubmed\/19861408"
+    },
+...
+  ],
+  null
+]
+</pre>
