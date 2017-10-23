@@ -217,21 +217,6 @@ Header info (<em>DO NOT INCLUDE PHI!</em>):<br>
 <br>
 <textarea rows=40 cols=150 name=xscript id=xscript>
 *EIF2AK3-alk fusion in NSCLC confers sensitivity to ceritinib (Won, Mambetsariev, and Salgia, BMC Cancer. 2016 Aug 2;16:568)
-
-*Combination BRAF plus MEK inhibitor therapy confers increased efficacy as compared to BRAF inhibitor monotherapy in mice with BRAFV600E-positive glioma (https://www.ncbi.nlm.nih.gov/pubmed/27848137)
-
-*Ceritinib is efficacious in a patient with EIF2AK3-ALK fusion-positive NSCLC with acquired resistance to crizotinib (https://www.ncbi.nlm.nih.gov/pubmed/27480287)
-
-*Loss of function mutations in JAK1 and JAK2 are associated with acquired resistance to PD-1 immunotherapy in patients with mismatch repair deficient, high mutational load colorectal cancer (PMID:27903500)
-
-*In a study of patients receiving autologous stem cell transplant for mantle cell non hodgkin's lymphoma rituximab 
-maintenance resulted in prolonged overall survival S Le Gouill , C Thieblemont, L Oberic et al. N Engl J Med 377;13:1250-1260; 2017)
-
-
-*In a randomized controlled trial with 200 patients with stage 2 metastatic melanoma (Shrager & Tenenbaum, 2014), EGFR expression leads to resistance to cisplatin.
-*EGFR expression leads to sensitivity to dexamethasone in a randomized controlled trial with 100 patients with stage 2 metastatic melanoma.
-*EGFR expression confers sensitivity to sorafenib (Mocellin, Shrager, et al. 2010).
-*EGFR amplification confers resistance to dexamethasone. (Tenenbaum and Shrager, 2011)
 </textarea>
 <p>
 <style>
