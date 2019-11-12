@@ -25,7 +25,6 @@
 (defpackage :utils (:use :common-lisp))
 (defpackage :nlp (:use :common-lisp :utils))
 (defpackage :ncit (:use :common-lisp :utils))
-(defpackage :norman (:use :common-lisp :utils))
 (defpackage :trex (:use :common-lisp :nlp :utils))
 (defpackage :quark (:use :common-lisp :nlp :utils))
 (defpackage :iic (:use :common-lisp :nlp :utils))
@@ -46,9 +45,6 @@
    (:module "nlp" 
     :components
     ((:file "myparser")))
-   (:module "norman" 
-    :components
-    ((:file "norman")))
    (:module "trex"
     :components
     ((:file "trex")))
@@ -74,7 +70,7 @@
 (setf *print-circle* t)
 (setf *random-state* (make-random-state t))
 
-(if (string-equal "/home/ubuntu" (CCL:GETENV "HOME"))
+(if (string-equal "REPLACE WITH WHATEVER YOUR CCL::GETENV RETURNS" (CCL:GETENV "HOME"))
     (setf utils::*localhost?* nil)
     t)
 
@@ -90,7 +86,6 @@
 
 (setf trex::*insights.json-path* "resources/insights/insights.json")
 
-(norman::init-norman-server)
 (trex::init-trex-server)
 (nlp::init-parse-server :test? nil)
 (quark::init-quark-server)

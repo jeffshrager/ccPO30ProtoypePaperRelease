@@ -34,9 +34,9 @@
 (defvar *localhost?* "Should be set by kp.asd initalization!")
 
 (defun host ()
-  (if *localhost?* "http://localhost:4240" "http://platformtest.cancercommons.org:4240"))
+  (if *localhost?* "http://localhost:4240" "http://trex.MYDOMAIN.COM:4240"))
 (defun docs ()
-  (if *localhost?* "http://localhost:4241" "http://platformtest.cancercommons.org:4241"))
+  (if *localhost?* "http://localhost:4241" "http://trex.MYDOMAIN.COM:4241"))
 
 ;;; =============================================
 ;;; (funmat out-stream "Foo ~a" exp1 " bar ~s" exp2 ...)
@@ -294,11 +294,11 @@ Shrager (jeff@cancercommons.org)</a></body> </html>
   (log! :init-log)
   )
 
-(defun log! (key &optional format-template &rest format-args)
+(defun log! (key &rest format-args)
   (with-open-file
    (log *log* :direction :output :if-does-not-exist :create :if-exists :append)
    (format log "(~a ~a " key (get-universal-time))
-   (when format-template (apply #'format log format-template format-args))
+   (format log "~s" format-args)
    (format log ")~%")
    ))
 
