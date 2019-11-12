@@ -91,3 +91,11 @@ See your lisp's documentation for the specifics of this command.
      http://trex.MYDOMAIN.COM:4240/trexui
 
    and it'll just work :-)
+
+8. If you want to leave a running server, you can do something like: 
+
+        lisp --load kp.asd >> /dev/null 2>> /dev/null &
+
+   or replace the /dev/null(s) with maybe a timestamped log file in a logs directory,
+   or somesuch thing.
+   
